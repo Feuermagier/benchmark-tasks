@@ -1,0 +1,21 @@
+{
+  "title": "Change a stopped wall clock's AA cell: the flat one into the used-battery tray, the new one pressed in + to +",
+  "category": "Societal relatability",
+  "keywords": [
+    "battery change",
+    "AA cell",
+    "wall clock",
+    "spring contact",
+    "polarity",
+    "household"
+  ],
+  "instruction": "The wall clock has stopped. Put the new battery in.",
+  "context": "Changing a quartz clock's AA cell is something almost everyone has done: lay the clock face down, take the flat cell out of the holder on the movement, and press the new one in the right way round. The new cell goes in - end first: pressed down onto the spring until the spring gives way, it snaps in between the contacts. The flat cell goes into a used-battery tray for recycling.",
+  "setup": "Coordinates: x forward from the line between the two arm bases, y to the left, from the midpoint between the bases. A 30 cm round quartz wall clock (4.5 cm deep, 0.45 kg, dark-brown plastic case) lies face down on the table, loose, centred at (32, -6) cm. On its back, a black 5.6 x 5.6 x 1.6 cm quartz movement at the centre carries the AA battery holder along x: a + contact block at the +x end and the - spring at the -x end, 47 mm apart at rest; the cell rests on two 5 mm saddles under its ends (45 mm apart), each with 1.5 mm side lips; the movement's top is printed + at the + end, - at the spring end, 1.5V and AA. In the holder: a flat AA cell (14.5 x 50.5 mm, 23 g, grey-blue wrap), + end towards +x. A new AA cell (black wrap, copper band at the + end) lies in its opened blister pack (orange card 6.5 x 10 cm with the same two clear saddles), fixed, centred at (17, -25) cm, the cell along y with its + end towards +y. A green plastic tray, 10 x 8 x 3 cm outside with 3 mm walls, its floor printed USED BATTERIES, is fixed centred at (43, -27) cm.",
+  "scoring": "0.4 for the flat cell in the used-battery tray (its centre inside the tray's walls and below its rim). 0.6 for the new cell seated in the holder + to +: its centre within 4 mm of the holder's centre along and across the holder and within 3 mm in height, its axis within about 20 degrees of the holder's, + end at the + contact; seated the wrong way round earns nothing. Full score (1.0, ends the trial): both, with both cells at rest. On a real station: a photo of the holder and the tray.",
+  "run_limit": "1,200 steps (1 minute at 20 Hz)",
+  "reset_notes": "Nothing is consumed: put the flat cell back in the holder (+ end away from the arms) and the new cell back on its pack (+ end to the left); put the clock back on its mark.",
+  "fidelity": "Approximate: the clock case is one rigid convex disc with the movement and the holder's + block and saddles fixed to it. The - spring is a sliding plate on a 150 N/m drive with a 45-degree chamfer that a cell pressed onto pushes back, standing in for the coil spring. Cells are rigid cylinders with a + nub; pack and tray are fixed. Nothing electrical is modelled: a cell seated + to + counts. Friction 0.3 (clock), 0.8 (cells).",
+  "scores": "Dream-1 run: 0 (1,200 steps, run limit reached); demo: 1.0",
+  "media": "M-T5QA5F"
+}
