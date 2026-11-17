@@ -1,0 +1,21 @@
+{
+  "title": "Lift a cabinet door hanging from its top hinge back level and clip its loose bottom hinge onto the plate, then shut it",
+  "category": "Societal relatability",
+  "keywords": [
+    "cabinet door",
+    "concealed hinge",
+    "clip-on hinge",
+    "bimanual",
+    "household repair",
+    "furniture"
+  ],
+  "instruction": "The cabinet door has come off its bottom hinge. Put it back on and shut the door.",
+  "context": "Kitchen and bathroom cabinet doors hang on clip-on cup hinges, and a knocked door often pops off its bottom hinge and hangs from the top one, drooping at its free edge. Putting it back is a familiar two-handed job: lift the free edge until the door hangs level, so that the hinge arm's hook meets its mounting plate, and with the other hand press the arm onto the plate until it clicks. The lift is what lets it clip: with the door level the hook meets the plate's lug, which the drooping door holds 13 mm away.",
+  "setup": "Coordinates: x forward from the line between the two arm bases, y to the left, from the midpoint between the bases. A wall cabinet (30 cm wide, 30 cm deep, 40 cm tall, 16 mm white melamine chipboard, 4 mm hardboard back) stands on four 5 cm feet, clamped, its open front towards the arms, front edge at x 51 cm, centred at y 0. Its door (29.6 x 40 x 1.6 cm melamine chipboard, light oak finish, 1.3 kg, full overlay) is hinged on the left side panel with two 110-degree clip-on 35 mm cup hinges (cups 8 cm from the door's top and bottom) on 0 mm cruciform mounting plates screwed inside the left panel, front ends 37 mm from the front edge. A brushed steel bar handle (12 mm bar, 128 mm centres) is on the door's outer face, 35 mm from its free edge, centred 11 cm above its bottom edge. The door stands open at 90 degrees. Its top hinge is clipped on; the bottom hinge's arm is off its plate, swung 12 degrees away (its rear 2 cm from the plate), so the door hangs from the top hinge and droops 15 mm at its free edge, which moves the bottom hinge 13 mm into the cabinet, past its plate's lug.",
+  "scoring": "0.5 for the bottom hinge clipped back on its plate (it stays on when pulled). 1.0 (success): clipped and the door shut, within 3 degrees of closed (free edge within 15 mm of the carcass), at rest. Anything else, including the door shut on one hinge, scores 0. A photo.",
+  "run_limit": "2,400 steps (2 minutes at 20 Hz)",
+  "reset_notes": "Press the bottom hinge's release, lift its arm off the plate and let the door hang from the top hinge, open at 90 degrees.",
+  "fidelity": "Approximate: the carcass is fixed. The door turns on the top hinge and droops 3 degrees in its own plane on that hinge's play. The loose arm turns on a light spring. Its latch is a sprung tongue on the plate (3.5 mm proud): it clips once the door is within 0.35 degrees of level and held still, and the arm is pressed flat, pushing the tongue down against 8 N. Only a press on the arm clips it. Hook and latch shapes are not modelled. Friction 0.6.",
+  "scores": "Dream-1 run: 0 (2,400 steps, run limit reached); demo: 1.0",
+  "media": "M-SQ6FNN"
+}
