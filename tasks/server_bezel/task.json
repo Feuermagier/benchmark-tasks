@@ -1,0 +1,21 @@
+{
+  "title": "Refit a 1U server's front bezel: its right end's hook tabs into the rack ear, then swing it shut until the latch clicks",
+  "category": "Impact on AI timelines",
+  "keywords": [
+    "data center",
+    "server bezel",
+    "rack",
+    "hook and latch",
+    "bimanual",
+    "drive swap"
+  ],
+  "instruction": "The drive swap is done. Put the server's front bezel back on.",
+  "context": "Rack servers wear a locking front bezel over their hot-swap drive bays. Drive swaps are routine data-center work, and every one ends with the bezel going back on, as the server manuals describe: hook the bezel's right end into the right rack ear (two tabs into two slots), then swing its left end in until its spring latch clicks into the left ear. It is a two-handed job: one hand on each end stands the 43 cm bezel upright and keeps it square while its right end goes into the ear with the left end held out; then the right hand stays at the ear while the left hand swings the left end in on a 38 cm radius, the two hands moving on different paths at once.",
+  "setup": "Coordinates: x forward from the line between the two arm bases, y to the left, from the midpoint between the bases. A 6U open-frame 19-inch rack (black steel, four 16 mm posts, 50 cm deep, 30 cm tall) is clamped to the table, its front posts at x 42 cm, centred at y 0. A short-depth 1U server (grey steel, 43.4 x 45 x 4.3 cm, four 2.5-inch drive bays across its front) is mounted at U4 with its two 2.4 cm rack ears bolted to the front posts: its front face at x 42 cm, its centre 17 cm above the table. The right ear has two hook slots 24 mm apart; the left ear has a latch catch. The bezel (black plastic with a grey grille, 43 x 4.2 x 2.5 cm, 0.25 kg; two 8 mm hook tabs on the back of its right end, a spring latch and release button in its left end, a key lock, unlocked) lies face up on the table, its long axis along y, centred at (25, 0) cm.",
+  "scoring": "0.4 for the bezel's right end hooked into the right rack ear (both tabs in their slots, the bezel hanging on them). 1.0 (success): the bezel latched shut on the server's front, at rest. Anything else scores 0. A photo of the front and a light tug on the bezel.",
+  "run_limit": "1,800 steps (90 seconds at 20 Hz)",
+  "reset_notes": "Press the bezel's release, swing its left end out, unhook it and lay it face up on its mark.",
+  "fidelity": "Approximate: rack and server are fixed. The bezel is a rigid box moving freely (a chain of undriven joints). Its tabs count as in their slots once its hook end is within 3 mm and 3 degrees of place, swung out 5 to 40 degrees; it is then held there and only swings; swung within 0.6 degrees of shut it latches. Tab and latch shapes, click force, unhooking and the lock are not modelled. Friction 0.6.",
+  "scores": "Dream-1 run: 0 (1,800 steps, run limit reached); demo: 1.0",
+  "media": "M-YVZF4R"
+}
