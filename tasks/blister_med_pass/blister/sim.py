@@ -1,9 +1,8 @@
 """The blister cards in Isaac Lab-Arena: their scene objects, the foil's tearing and the episode reset.
 
-Each filled cell's foil is a flap on a weak spring drive (target 0, flat). A tablet pushed down bends it. Once it
-has bent past ``TEAR_ANGLE``, or the bubble above has been pressed ``DOME_TEAR`` down (pressed hard, a small tablet
-can sink into the thin flap instead of bending it), the foil is torn for the rest of the episode and the drive swings
-the flap open, so the tablet falls out below. A card lying on the table cannot be pushed through: the table holds the flaps flat.
+Each filled cell's foil is a flap on a spring drive (target 0, flat) holding the tablet; above the tablet, the bubble's
+face sits on a stiff spring. Once the bubble has been pressed ``DOME_TEAR`` down (``TEAR_FORCE``), the foil is torn for
+the rest of the episode and the drive swings the flap open, so the tablet falls out below.
 
 Import after Isaac Sim has started.
 """
@@ -86,13 +85,13 @@ class Cards:
         self.arts[name].actuators.target_command.set_position_index(value=value, joint_ids=self.joint_ids[name])
 
     def after_step(self) -> list[tuple[str, int]]:
-        """Tear any foil bent past the threshold; returns the newly torn (card, cell)s."""
+        """Tear the foil under any bubble pressed with ``TEAR_FORCE``; returns the newly torn (card, cell)s."""
         new = []
         for name, art in self.arts.items():
             q = art.data.joint_pos.torch[0].detach().cpu()
-            flaps, domes = q[self.joint_ids[name]].tolist(), q[self.dome_ids[name]].tolist()
-            for cell, angle, press in zip(self.cells[name], flaps, domes, strict=True):
-                if (angle < -d.TEAR_ANGLE or press < -d.DOME_TEAR) and cell not in self.torn[name]:
+            domes = q[self.dome_ids[name]].tolist()
+            for cell, press in zip(self.cells[name], domes, strict=True):
+                if press < -d.DOME_TEAR and cell not in self.torn[name]:
                     self.torn[name].add(cell)
                     new.append((name, cell))
             if any(n == name for n, _ in new):

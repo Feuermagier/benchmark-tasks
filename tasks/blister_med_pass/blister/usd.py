@@ -7,9 +7,9 @@ A card's stage (default prim ``/Card``, the articulation root, a floating base):
   through each cell, built from boxes.
 - ``/Card/flap_<cell>_link``: the foil under a filled cell, hinged at the cell's far edge
   (``/Card/joints/flap_<cell>``, revolute about y, 0 = flat, negative = bent down).
-- ``/Card/dome_<cell>_link``: the bubble over a filled cell, its face resting on the tablet; it slides down into the
+- ``/Card/dome_<cell>_link``: the bubble over a filled cell, its face just above the tablet; it slides down into the
   opening (``/Card/joints/dome_<cell>``, prismatic along z, 0 at rest, negative = pressed), so the tablet is enclosed
-  and a fingertip on the bubble pushes it onto the foil.
+  and a fingertip pressing the bubble works against its spring.
 """
 
 from __future__ import annotations
@@ -201,7 +201,7 @@ def build_card(card: d.Card) -> str:
         j.CreateLowerLimitAttr(-math.degrees(d.FLAP_LIMIT))
         j.CreateUpperLimitAttr(0.0)
         UsdPhysics.DriveAPI.Apply(j.GetPrim(), "angular").CreateTypeAttr("force")
-        # The bubble: a dome that slides down into the opening, its face resting on the tablet.
+        # The bubble: a dome that slides down into the opening, its face just above the tablet.
         at = (x, y, d.DOME_Z)
         link = s.body(f"/Card/dome_{cell}_link", at, d.DOME_MASS)
         s.box(link, "face", d.DOME, (0, 0, 0), (0.92, 0.95, 1.0))
@@ -234,6 +234,10 @@ def build_cup() -> str:
     prim = s.stage.GetPrimAtPath("/Cup")
     UsdPhysics.RigidBodyAPI.Apply(prim)
     UsdPhysics.MassAPI.Apply(prim).CreateMassAttr(d.CUP_MASS)
+    prim.AddAppliedSchema("PhysxRigidBodyAPI")  # PhysX solver settings, authored in this USD
+    prim.CreateAttribute("physxRigidBody:solverPositionIterationCount", Sdf.ValueTypeNames.UInt).Set(
+        d.CUP_SOLVER_ITERATIONS)
+    prim.CreateAttribute("physxRigidBody:maxDepenetrationVelocity", Sdf.ValueTypeNames.Float).Set(0.5)
     white = (0.97, 0.97, 0.95)
     r, h, t, n = d.CUP_RADIUS, d.CUP_HEIGHT, d.CUP_WALL, d.CUP_STAVES
     s.box("/Cup", "floor", (2 * r, 2 * r, t), (0, 0, t / 2), white)

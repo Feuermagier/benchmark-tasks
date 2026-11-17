@@ -192,9 +192,10 @@ def _pill_names():
 # -- scripted demo ---------------------------------------------------------------------------------------------------
 # First the right arm holds its wrist camera over the medication record to read it, as a solving run must. Then the
 # left arm pinches a card by its two long edges near the label, lifts it off its stand, turns it a quarter turn so
-# its cells point at the right arm and sets the cell to give on the cup's rim; the right arm presses the bubble with its
-# closed fingers until the tablet drops through the foil into the cup (the rim takes the push). The arms work 18 cm
-# apart, so their wrists stay clear of each other. Each card goes back on its stand.
+# its cells point at the right arm and sets the card on the cup's rim, the cell to give over the cup and the rim under
+# both of the card's halves; the right arm presses the bubble with its closed fingers until the tablet drops through
+# the foil into the cup (the rim takes the push). The arms work 18 cm apart, so their wrists stay clear of each other.
+# Each card goes back on its stand.
 
 L, W, T = d.CARD_SIZE
 GRIP_BACK = 0.18  # the pinch is this far from the first pressed cell, towards the label
@@ -204,7 +205,13 @@ CARRY_Z = GRIP_Z + (TOP + 0.06 - CARD_Z)  # the card's underside 6 cm above the 
 ON_CUP_Z = GRIP_Z + (TOP + REST_GAP + d.CUP_HEIGHT + 0.001 - CARD_Z)  # the card's underside 1 mm above the rim
 CARD_TOP_ON_CUP = TOP + REST_GAP + d.CUP_HEIGHT + 0.001 + T
 PUSH_HOVER = CARD_TOP_ON_CUP + 0.03 + PAD_TIP_PAST_TCP
-PUSH_Z = CARD_TOP_ON_CUP - 0.008 + PAD_TIP_PAST_TCP  # commanded 8 mm below the card's top face: a firm press
+# A firm press: the arm's position control is soft, so the press aims well below the card's top face (a teleoperator
+# pushing firmly does the same with the leader arm), and the fingertip drifts while it presses, so it aims beside the
+# bubble. Measured on the bubble: 11 to 16 N.
+PUSH_IN = {"furosemide": 0.04, "metoprolol": 0.025}  # m below the card's top face
+PUSH_AIM = np.array([0.006, 0.011])  # m (world x, y): where the press aims, from the bubble
+CUP_SHIFT = 0.6  # the card point over the cup's centre: this fraction of the way from the card's centre line to the
+# cell, so the cell is over the cup and the rim is under both halves of the card
 HOVER = TOP + 0.12
 PLAN = (("furosemide", (25, 26)), ("metoprolol", (27,)))
 TURN = -np.pi / 2  # the held card's yaw: its cells towards the right arm
@@ -248,15 +255,18 @@ def demo():
                  _wp(0.8, (*home, GRIP_Z), PINCH, "pinch the card"),
                  _wp(1.0, (*home, CARRY_Z), PINCH, "lift")]  # fmt: skip
         for cell in cells:
-            at = np.array(CUP_XY) - _turned(TURN, np.array(d.cell_xy(cell)) - grip)
+            cx, cy = d.cell_xy(cell)
+            at = np.array(CUP_XY) - _turned(TURN, np.array([cx, cy * CUP_SHIFT]) - grip)
+            bubble = np.array(CUP_XY) + _turned(TURN, np.array([0.0, cy * (1 - CUP_SHIFT)]))
+            push_z = CARD_TOP_ON_CUP - PUSH_IN[name] + PAD_TIP_PAST_TCP
             hold += [_wp(2.0, (*at, CARRY_Z), PINCH, f"cell {cell} over the cup", TURN),
                      _wp(1.0, (*at, ON_CUP_Z), PINCH, "onto the rim", TURN),
                      _wp(0.3, (*at, ON_CUP_Z), PINCH, "settle", TURN)]  # fmt: skip
             _wait_until(push, _duration(hold) - 1.5, "wait for the card")
-            push += [_wp(1.5, (*CUP_XY, PUSH_HOVER), FINGER_CLOSED, "over the bubble", PRESS_YAW),
-                     _wp(1.0, (*CUP_XY, PUSH_Z), FINGER_CLOSED, f"press cell {cell} through", PRESS_YAW),
-                     _wp(0.8, (*CUP_XY, PUSH_Z), FINGER_CLOSED, "hold: the tablet drops", PRESS_YAW),
-                     _wp(0.6, (*CUP_XY, PUSH_HOVER), FINGER_CLOSED, "up", PRESS_YAW)]  # fmt: skip
+            push += [_wp(1.5, (*bubble, PUSH_HOVER), FINGER_CLOSED, "over the bubble", PRESS_YAW),
+                     _wp(1.0, (*bubble + PUSH_AIM, push_z), FINGER_CLOSED, f"press cell {cell} through", PRESS_YAW),
+                     _wp(0.8, (*bubble + PUSH_AIM, push_z), FINGER_CLOSED, "hold: the tablet drops", PRESS_YAW),
+                     _wp(0.6, (*bubble, PUSH_HOVER), FINGER_CLOSED, "up", PRESS_YAW)]  # fmt: skip
             _wait_until(hold, _duration(push), "hold the card")
             hold.append(_wp(0.8, (*at, CARRY_Z), PINCH, "off the rim", TURN))
         push.append(_wp(1.2, (*WAIT_XY["right"], HOVER), FINGER_CLOSED, "out of the way"))

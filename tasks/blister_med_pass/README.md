@@ -117,24 +117,27 @@ Scripted full-score demo: the same command with `--policy yam_scripted -E object
 
 The demo: the right arm first holds its wrist camera 22 cm above the medication record for 2 s to read it (the whole
 sheet is in view and legible at 320 x 176). Then, for each due tablet, the left arm pinches the card by its long
-edges over the label area, lifts it off its stand, turns it a quarter turn and sets the cell on the cup's rim; the
-right arm presses the bubble with its closed fingers until the tablet tears through the foil and drops into the
-cup. Furosemide cells 25 and 26 are given first, then metoprolol cell 27; each card goes back on its stand.
+edges over the label area, lifts it off its stand, turns it a quarter turn and sets it on the cup's rim, the cell
+over the cup and the rim under both halves of the card; the right arm presses the bubble with its closed fingers
+until the tablet tears through the foil and drops into the cup. The press aims well below the card and a few
+millimetres beside the bubble, as the arm's position control is soft and the fingertip drifts while it pushes (a
+teleoperator pressing firmly does the same with the leader arm); it reaches 12 to 16 N on the bubble. Furosemide cells
+25 and 26 are given first, then metoprolol cell 27; each card goes back on its stand.
 Atorvastatin is left alone.
 
 ## Simulation notes
 
 - Each card is one rigid 4 mm slab (card and blister layer together) with the cell openings cut out; it is an
   articulation with two moving parts per full cell. The **foil** is a 2 mm flap under the cell, hinged at one edge
-  and held flat by a stiff spring; the **bubble** is an 11 mm pressing face that slides down onto the tablet against a
-  soft spring (6 mm travel). The foil **tears** once the tablet has pushed it down about 0.3° (about 2.5 N, where real
-  foil takes roughly 10 to 30 N) or the bubble has been pressed 1.5 mm down onto the tablet (PhysX lets a tablet
-  sink into the thin flap rather than bend it, so the bubble's travel is the reliable sign of a press-through);
-  a torn flap swings open and stays open for the episode, and the tablet falls out below. A card lying on a stand or
-  on the table cannot be pushed through: the support holds the foil shut.
-- The foil is thicker (2 mm) and the tablets heavier (1 g; real ones are 0.2 to 0.4 g) than the real ones, so the
-  contacts stay stable at 240 Hz. Card friction uses a fixed 5 mm torsional patch, as a rubber pad on cardboard.
-- The cup is rigid (a disc floor and 16 wall staves). The record is a thin fixed box with the print as a texture.
+  and held flat by a spring, holding the tablet; the **bubble** is an 11 mm, 3 mm thick pressing face 2 mm above the
+  tablet that slides down into the opening on a stiff spring (8,000 N/m, 6 mm travel), so the press on the bubble is
+  measured as its travel. The foil **tears** once the bubble is pressed with 10 N (1.25 mm down): the torn flap swings
+  open and stays open for the episode, and the tablet falls out below. On a stand or on the table, the support under
+  the cell keeps the tablet in.
+- The foil flap is 2 mm thick and the tablets are rigid 1 g cylinders, so the contacts stay stable at 240 Hz. Card
+  friction uses a fixed 5 mm torsional patch, as a rubber pad on cardboard.
+- The cup is rigid: 20 g, a disc floor and 16 wall staves 3 mm thick, with 32 solver iterations, so it takes the
+  card pressed onto its rim. The record is a thin fixed box with the print as a texture.
 - The stands are part of the setup because a parallel gripper cannot pick a 4 mm card up off a flat table.
 
 ## Implementation

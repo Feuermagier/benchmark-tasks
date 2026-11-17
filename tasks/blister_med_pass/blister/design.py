@@ -20,31 +20,35 @@ LABEL_LENGTH = 0.055  # the printed pharmacy label, from the card's -x end [m]
 # -- foil: one hinged flap under each filled cell -------------------------------------------------------------------
 FLAP_T = 0.002  # thickness [m] (thicker than real foil, so a pressed tablet cannot sink into it); flush with the card's underside
 FLAP_MASS = 0.0005  # kg
-FLAP_DRIVE = {"stiffness": 3.0, "damping": 0.002, "armature": 1e-6}  # N m/rad, N m s/rad, kg m^2: stiff, so the
-# tablet cannot slip past intact foil between two control steps
-TEAR_ANGLE = 0.005  # rad the flap bends down before the foil tears: about 2.5 N on the tablet
+FLAP_DRIVE = {"stiffness": 3.0, "damping": 0.002, "armature": 1e-6}  # N m/rad, N m s/rad, kg m^2: holds the tablet
 OPEN_ANGLE = 1.5  # rad: once torn, the flap swings this far down
 FLAP_LIMIT = 1.75  # rad: the joint's travel, downwards from the card's underside
 
 # -- bubble: a dome over each filled cell that a fingertip presses down onto the tablet --------------------------------
-DOME = (0.011, 0.011, 0.001)  # its pressing face (x, y, z) [m], resting on the tablet, 5 mm proud of the card
+# The press is measured on the bubble: its face sits on a stiff spring just above the tablet, and the foil tears once
+# the bubble is pressed with TEAR_FORCE.
+TEAR_FORCE = 10.0  # N: pressing a tablet through blister foil takes 10 N or more
+DOME = (0.011, 0.011, 0.003)  # its pressing face (x, y, z) [m]
+DOME_GAP = 0.002  # the face's underside above the tablet [m]
 DOME_MASS = 0.0005  # kg
 DOME_TRAVEL = 0.006  # m it can be pressed down
-DOME_DRIVE = {"stiffness": 100.0, "damping": 0.05, "armature": 1e-5}  # N/m, N s/m: the plastic gives way easily
-DOME_TEAR = 0.0015  # m: a bubble pressed this far down has pushed its tablet through the foil
+DOME_TEAR = 0.00125  # m: pressed this far down, it carries TEAR_FORCE
+DOME_DRIVE = {"stiffness": TEAR_FORCE / DOME_TEAR, "damping": 40.0, "armature": 0.05}  # N/m (8,000), N s/m, kg: the
+# armature (inertia on the joint, no weight) keeps a fingertip from pushing through the thin face in PhysX
 
 # -- tablet ----------------------------------------------------------------------------------------------------------
 PILL_RADIUS = 0.0045  # m (9 mm round tablet, 6 mm thick)
 PILL_HEIGHT = 0.006
 PILL_MASS = 0.001  # kg (a real tablet is 0.2 to 0.4 g)
 PILL_Z = FLAP_T + PILL_HEIGHT / 2  # its centre above the card's underside, resting on its flap
-DOME_Z = FLAP_T + PILL_HEIGHT + DOME[2] / 2  # the dome's centre at rest, on the tablet
+DOME_Z = FLAP_T + PILL_HEIGHT + DOME_GAP + DOME[2] / 2  # the dome's centre at rest, above the tablet
 
 # -- medicine cup (1 oz paper souffle cup) ---------------------------------------------------------------------------
 CUP_RADIUS = 0.022  # inner radius at the rim [m]
 CUP_HEIGHT = 0.03
-CUP_WALL = 0.001
-CUP_MASS = 0.004  # kg
+CUP_WALL = 0.003  # m
+CUP_MASS = 0.02  # kg
+CUP_SOLVER_ITERATIONS = 32  # the card is pressed onto its rim with 10 N or more
 CUP_STAVES = 16
 
 # -- medication administration record --------------------------------------------------------------------------------
